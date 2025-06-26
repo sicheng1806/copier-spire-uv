@@ -31,9 +31,11 @@ component:
   choices:
     - uv
     - sphinx
+    - pre-commit
   default: 
     - uv
     - sphinx
+    - pre-commit
 
 
 python_version:
@@ -64,3 +66,4 @@ sphinx_readthedoc:
   help: whether to use readthedoc 
   default: false
   when: "'sphinx' in component"
+

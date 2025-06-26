@@ -6,6 +6,8 @@ import subprocess
 {% if 'sphinx' in component -%}USE_SPHINX = True{% else %}USE_SPHINX = False{%- endif %}
 {% if 'sphinx' in component and sphinx_myst %}USE_MYST = True{%else%}USE_MYST = False{% endif %}
 {% if 'sphinx' in component and sphinx_readthedoc %}USE_READTHEDOC = True{%else%}USE_READTHEDOC = False{% endif %}
+{% if 'pre-commit' in component -%}USE_PRECOMMIT = True{% else %}USE_PRECOMMIT = False{%- endif %}
+
 
 def silence_errors(func):
     def wrapped(*args, **kwargs):
@@ -44,6 +46,9 @@ if __name__ == '__main__':
             clean_files += ["doc/source/index.rst"]
         if not USE_READTHEDOC:
             clean_files += [".readthedocs.yaml","doc/doc_requirements.txt"]
+    if not USE_PRECOMMIT:
+        clean_files += [".pre-commit-config.yaml"]
+
     cwd = Path(__file__).parent.parent
     for f in clean_files:
         to_clean = cwd / f
