@@ -7,6 +7,7 @@ import subprocess
 {% if 'sphinx' in component and sphinx_myst %}USE_MYST = True{%else%}USE_MYST = False{% endif %}
 {% if 'sphinx' in component and sphinx_readthedoc %}USE_READTHEDOC = True{%else%}USE_READTHEDOC = False{% endif %}
 {% if 'pre-commit' in component -%}USE_PRECOMMIT = True{% else %}USE_PRECOMMIT = False{%- endif %}
+{% if 'github-actions' in component -%}USE_GITHUB_ACTIONS = True{% else %}USE_GITHUB_ACTIONS = False{%- endif %}
 
 
 def silence_errors(func):
@@ -48,6 +49,8 @@ if __name__ == '__main__':
             clean_files += [".readthedocs.yaml","doc/doc_requirements.txt"]
     if not USE_PRECOMMIT:
         clean_files += [".pre-commit-config.yaml"]
+    if not USE_GITHUB_ACTIONS:
+        clean_files += [".github"]
 
     cwd = Path(__file__).parent.parent
     for f in clean_files:
@@ -62,4 +65,4 @@ if __name__ == '__main__':
         rm(cwd / 'uv.lock')
     
     rm(__file__)
-    print("Project sucessfully generated!")
+    print("Project successful generated!")

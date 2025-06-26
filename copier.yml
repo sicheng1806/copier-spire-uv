@@ -32,12 +32,12 @@ component:
     - uv
     - sphinx
     - pre-commit
-    - pytest
+    - github-actions
   default: 
     - uv
     - sphinx
     - pre-commit
-    - pytest
+    - github-actions
 
 
 python_version:
