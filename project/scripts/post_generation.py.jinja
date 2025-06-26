@@ -1,0 +1,47 @@
+from pathlib import Path
+import shutil
+import subprocess
+
+
+def silence_errors(func):
+    def wrapped(*args, **kwargs):
+        try:
+            func(*args, **kwargs)
+        except Exception:
+            pass
+    return wrapped
+
+@silence_errors
+def rm(path):
+    Path(path).unlink()
+
+@silence_errors
+def rmdir(path):
+    shutil.rmtree(path)
+
+def post_sphinx():
+    requires = ["sphinx"]
+    subprocess.run(
+        ["uv","add","--group","doc"] + requires
+    )
+
+
+if __name__ == '__main__':
+    clean_files = []
+    {% if 'uv' not in component %}
+    clean_files += ["pyproject.toml",".python-version"]
+    {% endif %}
+    {% if 'sphinx' not in component %}
+    clean_files += ["doc",".python-version"]
+    {% endif %}
+    cwd = Path(__file__).parent.parent
+    for f in clean_files:
+        rmdir(cwd / f)
+    {% if 'sphinx' in component and 'uv' in component %}
+    post_sphinx()
+    rmdir(cwd / '.venv')
+    rm(cwd / 'uv.lock')
+    {% endif %}
+    
+    rm(__file__)
+    print("Project sucessfully generated!")
