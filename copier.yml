@@ -33,6 +33,7 @@ component:
     - sphinx
   default: 
     - uv
+    - sphinx
 
 
 python_version:
@@ -52,3 +53,8 @@ sphinx_language:
   default: en
   when: "'sphinx' in component"
 
+sphinx_myst:
+  type: bool
+  help: whether to use myst in sphinx
+  default: true
+  when: "'sphinx' in component"
