@@ -1,0 +1,54 @@
+# CONFIGURATION ---------------------------
+_subdirectory: project
+_templates_suffix: .jinja
+_tasks:
+  - python scripts/post_generation.py
+
+
+# PROMPT ----------------------------------
+project_name:
+  type: str
+  help: Your project name
+
+project_description:
+  type: str
+  help: Your project description 
+
+author:
+  type: str
+  help: Your name
+
+project_version:
+  type: str
+  help: Your Project version
+  default: 0.1.0
+
+# components
+
+component:
+  type: str
+  multiselect: true
+  choices:
+    - uv
+    - sphinx
+  default: 
+    - uv
+
+
+python_version:
+  type: str
+  default: "3.13"
+  when: "'uv' in component"
+
+python_package_name:
+  type: str
+  help: Your Python package distribution name (for `pip install NAME`)
+  default: "{{ project_name|lower|replace('_', '-')|replace(' ', '-') }}"
+  when: "'uv' in component"
+
+sphinx_language:
+  type: str
+  help: sphinx's language
+  default: en
+  when: "'sphinx' in component"
+
