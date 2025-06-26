@@ -5,6 +5,7 @@ import subprocess
 {% if 'uv' in component -%}USE_UV = True{% else %}USE_UV = False{%- endif %}
 {% if 'sphinx' in component -%}USE_SPHINX = True{% else %}USE_SPHINX = False{%- endif %}
 {% if 'sphinx' in component and sphinx_myst %}USE_MYST = True{%else%}USE_MYST = False{% endif %}
+{% if 'sphinx' in component and sphinx_readthedoc %}USE_READTHEDOC = True{%else%}USE_READTHEDOC = False{% endif %}
 
 def silence_errors(func):
     def wrapped(*args, **kwargs):
@@ -35,12 +36,14 @@ if __name__ == '__main__':
     if not USE_UV:
         clean_files += ["pyproject.toml",".python-version"]
     if not USE_SPHINX:
-        clean_files += ["doc"]
+        clean_files += ["doc",".readthedocs.yaml"]
     else:
         if not USE_MYST:
             clean_files += ["doc/source/index.md"]
         else:
             clean_files += ["doc/source/index.rst"]
+        if not USE_READTHEDOC:
+            clean_files += [".readthedocs.yaml","doc/doc_requirements.txt"]
     cwd = Path(__file__).parent.parent
     for f in clean_files:
         to_clean = cwd / f
