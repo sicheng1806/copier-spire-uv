@@ -37,7 +37,6 @@ component:
     - uv
     - sphinx
     - pre-commit
-    - github-actions
 
 
 python_version:

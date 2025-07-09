@@ -31,6 +31,7 @@ def post_sphinx():
     if USE_MYST: requires += ["myst-parser"]
     subprocess.run(
         ["uv","add","--group","doc"] + requires,
+        stdout=subprocess.DEVNULL,
     )
 
 
