@@ -28,5 +28,11 @@ Similar templates:
 To use the template, run:
 
 ```bash
-copier copy https://github.com/sicheng1806/copier-spire-uv.git <target-dir>
+copier copy --trust https://github.com/sicheng1806/copier-spire-uv.git /path/to/your/new/project
+```
+
+Or even shoter:
+
+```bash
+copier copy --trust gh:sicheng1806/copier-spire-uv /path/to/your/new/project
 ```

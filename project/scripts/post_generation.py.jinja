@@ -28,10 +28,12 @@ def rmdir(path):
 
 def post_sphinx():
     requires = ["sphinx"]
+    print("Posting process for sphinx component...")
     if USE_MYST: requires += ["myst-parser"]
     subprocess.run(
         ["uv","add","--group","doc"] + requires,
         stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL
     )
 
 
@@ -54,6 +56,7 @@ if __name__ == '__main__':
         clean_files += [".github"]
 
     cwd = Path(__file__).parent.parent
+    print("Cleaning up temporary files...")
     for f in clean_files:
         to_clean = cwd / f
         if to_clean.is_dir():
