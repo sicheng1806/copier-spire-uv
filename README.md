@@ -25,4 +25,8 @@ Similar templates:
 
 ## Quick setup and usage
 
-<!-- TODO: 待完成 -->
+To use the template, run:
+
+```bash
+copier copy https://github.com/sicheng1806/copier-spire-uv.git <target-dir>
+```
