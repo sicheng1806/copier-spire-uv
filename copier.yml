@@ -33,10 +33,12 @@ component:
     - sphinx
     - pre-commit
     - github-actions
+    - click-devtool
   default: 
     - uv
     - sphinx
     - pre-commit
+    - click-devtool
 
 
 python_version:

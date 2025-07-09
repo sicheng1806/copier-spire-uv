@@ -1,0 +1,30 @@
+"""The project manager"""
+{% set pkg_name = project_name|lower|replace('-', '_')|replace(' ', '_') %}
+import subprocess
+from pathlib import Path
+import webbrowser
+
+import click
+
+@click.group()
+def {{ pkg_name }}_devtool():
+    """The manager for project paper-sicheng
+    """
+{% if 'sphinx' in component -%}
+
+@{{pkg_name}}_devtool.command("mkdoc")
+@click.option('-o','--open','_open', is_flag=True, help="Whether to open in brewer")
+def _mkdoc(_open:bool):
+    """Build the doc and view
+    """
+    
+    root = Path(__file__).parent
+    cmd = ["uv", "run", "sphinx-build", "-b", "html", "./doc/source", "./doc/build/html"]
+    subprocess.run(cmd, cwd=root)
+    html_index = root / "doc" / "build" / "html" / "index.html"
+    if _open:
+        webbrowser.open(str(html_index))
+{%- endif%}
+
+if __name__ == '__main__':
+    {{pkg_name}}_devtool()

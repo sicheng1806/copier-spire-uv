@@ -8,7 +8,7 @@ import subprocess
 {% if 'sphinx' in component and sphinx_readthedoc %}USE_READTHEDOC = True{%else%}USE_READTHEDOC = False{% endif %}
 {% if 'pre-commit' in component -%}USE_PRECOMMIT = True{% else %}USE_PRECOMMIT = False{%- endif %}
 {% if 'github-actions' in component -%}USE_GITHUB_ACTIONS = True{% else %}USE_GITHUB_ACTIONS = False{%- endif %}
-
+{% if 'click-devtool' in component -%}USE_CLICK = True{% else %}USE_CLICK = False {%- endif %}
 
 def silence_errors(func):
     def wrapped(*args, **kwargs):
@@ -27,17 +27,20 @@ def rmdir(path):
     shutil.rmtree(path)
 
 def post_sphinx():
-    requires = ["sphinx"]
+    requires = ["sphinx", "linkify-it-py"]
     print("Posting process for sphinx component...")
     if USE_MYST: requires += ["myst-parser"]
     subprocess.run(
-        ["uv","add","--group","doc"] + requires,
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL
+        ["uv","add","--group","doc", "--no-sync"] + requires,
+        #stdout=subprocess.DEVNULL,
+        #stderr=subprocess.DEVNULL
     )
 
-
 if __name__ == '__main__':
+    cwd = Path(__file__).parent.parent
+    create_dirs = ["doc/source/_static", "doc/source/_templates"]
+    for d in create_dirs:
+        (cwd / d).mkdir(parents=True,exist_ok=True)
     clean_files = []
     if not USE_UV:
         clean_files += ["pyproject.toml",".python-version"]
@@ -54,11 +57,13 @@ if __name__ == '__main__':
         clean_files += [".pre-commit-config.yaml"]
     if not USE_GITHUB_ACTIONS:
         clean_files += [".github"]
+    if not USE_CLICK:
+        clean_files += ["dev.py"]
 
-    cwd = Path(__file__).parent.parent
     print("Cleaning up temporary files...")
     for f in clean_files:
         to_clean = cwd / f
+        print(f"- {to_clean.name}")
         if to_clean.is_dir():
             rmdir(to_clean)
         else:
@@ -67,6 +72,10 @@ if __name__ == '__main__':
         post_sphinx()
         rmdir(cwd / '.venv')
         rm(cwd / 'uv.lock')
+    if USE_CLICK:
+        subprocess.run(
+            ["uv", "add", "--dev", "click", "--no-sync"]
+        )
     
-    rm(__file__)
+    #rm(__file__)
     print("Project successful generated!")

@@ -29,7 +29,7 @@ copier copy -f --trust "${template}" "${output}" \
     -d project_name="Template Testing" \
     -d project_description="A test project" \
     -d author="sicheng" \
-    > /dev/null 2>&1
+    
 cd "${output}"
 echo 
 echo "             COPIER-ANSWERS"
@@ -52,16 +52,15 @@ echo ">>> Setting up Python environments"
 uv sync > /dev/null 2>&1
 
 
-
-echo
-echo "///////////////////////////////////////////"
-echo "             UPDATING PROJECT"
-echo "///////////////////////////////////////////"
-echo
-echo uv.lock >> .gitignore
-git add .
-git commit -m "chore: commit before copier update"
-copier update -f --trust > /dev/null 2>&1
+# echo
+# echo "///////////////////////////////////////////"
+# echo "             UPDATING PROJECT"
+# echo "///////////////////////////////////////////"
+# echo
+# echo uv.lock >> .gitignore
+# git add .
+# git commit -m "chore: commit before copier update"
+# copier update -f --trust > /dev/null 2>&1
 
 echo
 echo "///////////////////////////////////////////"
