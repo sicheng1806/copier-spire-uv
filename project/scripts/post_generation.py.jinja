@@ -71,7 +71,7 @@ if __name__ == '__main__':
             rm(to_clean)
     if USE_UV and USE_SPHINX:
         post_sphinx()
-        rmdir(cwd / '.venv')
+
     if USE_CLICK:
         subprocess.run(
             ["uv", "add", "click", "--script", "dev.py"]
