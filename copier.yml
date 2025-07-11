@@ -34,6 +34,7 @@ component:
     - pre-commit
     - github-actions
     - click-devtool
+    - pkg
   default: 
     - uv
     - sphinx

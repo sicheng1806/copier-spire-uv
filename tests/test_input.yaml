@@ -1,0 +1,10 @@
+project_name: Template Testing
+project_description: A test project
+author: sicheng
+component:
+  - uv
+  - sphinx
+  - pre-commit
+  - github-actions
+  - click-devtool
+  - pkg

@@ -26,10 +26,8 @@ echo "///////////////////////////////////////////"
 echo
 rm -rf "${output}"
 copier copy -f --trust "${template}" "${output}" \
-    -d project_name="Template Testing" \
-    -d project_description="A test project" \
-    -d author="sicheng" \
-    
+    --data-file tests/test_input.yaml
+
 cd "${output}"
 echo 
 echo "             COPIER-ANSWERS"
