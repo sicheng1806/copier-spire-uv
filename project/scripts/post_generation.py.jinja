@@ -79,8 +79,9 @@ if __name__ == '__main__':
         )
     
     if USE_PKG and PKG_PATH == 'no-src':
-        src = CWD / "src" / "{{python_package_name|replace('-','_')}}"
-        shutil.move(str(src), CWD)
+        src = CWD / "src" / "{{python_package_name|replace('-', '_')}}"
+        dst = CWD / "{{python_package_name|replace('-', '_')}}"
+        shutil.copytree(src, dst, dirs_exist_ok = True)
         rmdir(CWD / "src")
     
     rmdir(Path(__file__).parent)
