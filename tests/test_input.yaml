@@ -8,3 +8,4 @@ component:
   - github-actions
   - click-devtool
   - pkg
+#pkg_path: no-src

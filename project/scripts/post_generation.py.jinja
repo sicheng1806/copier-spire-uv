@@ -9,7 +9,8 @@ import subprocess
 {% if 'pre-commit' in component -%}USE_PRECOMMIT = True{% else %}USE_PRECOMMIT = False{%- endif %}
 {% if 'github-actions' in component -%}USE_GITHUB_ACTIONS = True{% else %}USE_GITHUB_ACTIONS = False{%- endif %}
 {% if 'click-devtool' in component -%}USE_CLICK = True{% else %}USE_CLICK = False {%- endif %}
-{% if 'pkg' in component -%}USE_PKG = True{% else %}USE_PKG = False {%- endif%}
+{% if 'pkg' in component -%}USE_PKG = True{% else %}USE_PKG = False {%- endif %}
+{% if 'pkg' in component and pkg_path == 'no-src' -%}PKG_PATH = 'no-src'{% else %}PKG_PATH = 'src'{%- endif %}
 
 def silence_errors(func):
     def wrapped(*args, **kwargs):
@@ -36,10 +37,10 @@ def post_sphinx():
     )
 
 if __name__ == '__main__':
-    cwd = Path(__file__).parent.parent
+    CWD = Path(__file__).parent.parent
     create_dirs = ["doc/source/_static", "doc/source/_templates"]
     for d in create_dirs:
-        (cwd / d).mkdir(parents=True,exist_ok=True)
+        (CWD / d).mkdir(parents=True,exist_ok=True)
     clean_files = []
     if not USE_UV:
         clean_files += ["pyproject.toml",".python-version"]
@@ -63,7 +64,7 @@ if __name__ == '__main__':
 
     print("Cleaning up temporary files...")
     for f in clean_files:
-        to_clean = cwd / f
+        to_clean = CWD / f
         print(f"- {to_clean.name}")
         if to_clean.is_dir():
             rmdir(to_clean)
@@ -76,6 +77,11 @@ if __name__ == '__main__':
         subprocess.run(
             ["uv", "add", "click", "--script", "dev.py"]
         )
+    
+    if USE_PKG and PKG_PATH == 'no-src':
+        src = CWD / "src" / "{{python_package_name|replace('-','_')}}"
+        shutil.move(str(src), CWD)
+        rmdir(CWD / "src")
     
     rmdir(Path(__file__).parent)
     print("Project successful generated!")

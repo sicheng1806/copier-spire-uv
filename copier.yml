@@ -71,3 +71,11 @@ sphinx_readthedoc:
   default: false
   when: "'sphinx' in component"
 
+pkg_path:
+  type: str
+  help: The path of your python location
+  default: "src"
+  when: "'pkg' in component"
+  choices:
+    - 'src'
+    - 'no-src'
