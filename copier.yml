@@ -45,37 +45,37 @@ component:
 python_version:
   type: str
   default: "3.13"
-  when: "'uv' in component"
+  when: "{{ 'uv' in component }}"
 
 python_package_name:
   type: str
   help: Your Python package distribution name (for `pip install NAME`)
   default: "{{ project_name|lower|replace('_', '-')|replace(' ', '-') }}"
-  when: "'uv' in component"
+  when: " {{'uv' in component }}"
 
 sphinx_language:
   type: str
   help: sphinx's language
   default: en
-  when: "'sphinx' in component"
+  when: "{{ 'sphinx' in component }}"
 
 sphinx_myst:
   type: bool
   help: whether to use myst in sphinx
   default: true
-  when: "'sphinx' in component"
+  when: "{{ 'sphinx' in component }}"
 
 sphinx_readthedoc:
   type: bool
   help: whether to use readthedoc 
   default: false
-  when: "'sphinx' in component"
+  when: "{{ 'sphinx' in component }}"
 
 pkg_path:
   type: str
   help: The path of your python location
   default: "src"
-  when: "'pkg' in component"
+  when: "{{ 'pkg' in component }}"
   choices:
     - 'src'
     - 'no-src'
