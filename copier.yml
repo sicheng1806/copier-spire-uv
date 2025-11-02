@@ -31,15 +31,16 @@ component:
   choices:
     - uv
     - sphinx
+    - pkg
     - pre-commit
     - click-devtool
-    - pkg
     - github-actions
   default: 
     - uv
     - sphinx
     - pre-commit
     - click-devtool
+    - pkg
 
 
 python_version:
